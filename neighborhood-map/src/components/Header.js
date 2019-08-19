@@ -2,10 +2,10 @@ import React from 'react';
 
 const Header = () => {
     return (
-        <div>
+        <header>
             <h1>Map</h1>
             <button>X</button>
-        </div>
+        </header>
     )
 
 }
