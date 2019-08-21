@@ -8,13 +8,17 @@ import Map from './components/Map'
 
 class App extends Component {
   
+  state = {
+    venues: []
+  }
+
   componentDidMount() {
     this.getVenues()
     this.renderMap()
   }
 
-  // followed by Yahya Elharony
-  // https://www.youtube.com/watch?v=W5LhLZqj76s
+  /* followed by Yahya Elharony
+     https://www.youtube.com/watch?v=W5LhLZqj76s */
   
   // setting up FourSquare API
   getVenues = () => {
@@ -28,11 +32,17 @@ class App extends Component {
       v: '20180323'
     }
 
-  // Promise
 
-  axios.get(endPoint + new URLSearchParams(parameters))
-  .then(response => {console.log(response.data.response.groups[0].items)})
-  .catch(error => {console.log('There are no data to display' + error)})
+    // Promise with axios app
+    axios.get(endPoint + new URLSearchParams(parameters))
+    .then(response => {
+    //  console.log(response.data.response.groups[0].items)})
+
+      this.setState({
+        venues: response.data.response.groups[0].items
+      })
+    })  
+    .catch(error => {console.log('There are no data to display' + error)})
   }
 
  
@@ -45,8 +55,8 @@ class App extends Component {
 
   initMap = () => {
     var map = new window.google.maps.Map(document.getElementById('map'), {
-          center: {lat: -34.397, lng: 150.644},
-          zoom: 8
+          center: {lat: 41.390205, lng: 2.154007},
+          zoom: 13
     });
   }
 

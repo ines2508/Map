@@ -10,7 +10,9 @@ h1,
 h2, 
 h3, 
 header, 
-main, 
+main,
+.sidebar, 
+#map,
 footer {
     margin: 0;
     padding: 0;
@@ -21,6 +23,8 @@ footer {
 body,
 header,
 main,
+.sidebar,
+#map,
 footer {
     display: flex;
     display: -webkit-flex;
@@ -29,7 +33,21 @@ footer {
     flex-flow: row wrap;
     flex-wrap: wrap;
 }
+.main {
+    width: 100vw;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+.sidebar {
+    width: 20vw;
+    position: absolute;
+    z-index: 10;
+    order: 1;
+}
 #map {
-  background-color: gray;
-  height: 50vh;
+    background-color: gray;
+    height: 80vh;
+    width: 100vw;
+    order: 10
 }
