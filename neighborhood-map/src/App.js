@@ -14,7 +14,6 @@ class App extends Component {
 
   componentDidMount() {
     this.getVenues()
-    this.renderMap()
   }
 
   /* followed by Yahya Elharony
@@ -36,11 +35,13 @@ class App extends Component {
     // Promise with axios app
     axios.get(endPoint + new URLSearchParams(parameters))
     .then(response => {
-    //  console.log(response.data.response.groups[0].items)})
+      console.log(response.data.response.groups[0].items);
 
       this.setState({
         venues: response.data.response.groups[0].items
-      })
+      }, 
+      // wait till venues array is full loaded
+      this.renderMap())
     })  
     .catch(error => {console.log('There are no data to display' + error)})
   }
@@ -58,6 +59,21 @@ class App extends Component {
           center: {lat: 41.390205, lng: 2.154007},
           zoom: 13
     });
+
+    // add markers from FourSquare API
+
+    this.state.venues.map( venueFS => {
+
+      var marker = new window.google.maps.Marker({
+        position: {lat: venueFS.venue.location.lat, 
+                   lng: venueFS.venue.location.lng},
+        map: map,
+        animation: window.google.maps.Animation.DROP
+      });
+  
+    })
+
+    
   }
 
   
