@@ -5,6 +5,7 @@ import axios from 'axios'
 import Header from './components/Header';
 import Sidebar from './components/Sidebar';
 import Map from './components/Map'
+import { makeEmptyAggregatedTestResult } from '@jest/test-result';
 
 class App extends Component {
   
@@ -31,7 +32,6 @@ class App extends Component {
       v: '20180323'
     }
 
-
     // Promise with axios app
     axios.get(endPoint + new URLSearchParams(parameters))
     .then(response => {
@@ -47,7 +47,6 @@ class App extends Component {
   }
 
  
-
   // setting up Google Map API
   renderMap = () => {
     loadScript('https://maps.googleapis.com/maps/api/js?key=AIzaSyBZaSwddTJZ6RrHZ7QTcFtEgvScuOmZ_uk&callback=initMap')
@@ -57,23 +56,56 @@ class App extends Component {
   initMap = () => {
     var map = new window.google.maps.Map(document.getElementById('map'), {
           center: {lat: 41.390205, lng: 2.154007},
-          zoom: 13
+          zoom: 14
     });
 
-    // add markers from FourSquare API
+    var boundaries = new window.google.maps.LatLngBounds();
 
-    this.state.venues.map( venueFS => {
+
+    // add infoWindow
+
+    var infowindow = new window.google.maps.InfoWindow();
+
+    this.state.venues.map( (venueFS, index) => {
+
+      // add markers
 
       var marker = new window.google.maps.Marker({
         position: {lat: venueFS.venue.location.lat, 
                    lng: venueFS.venue.location.lng},
         map: map,
-        animation: window.google.maps.Animation.DROP
+        animation: window.google.maps.Animation.DROP,
+        title: venueFS.venue.name,
+        label: `${index}`
       });
-  
+
+      // infoWindow content
+
+      var contentString = `<div className='infoWindow'>
+      <h3>${venueFS.venue.name}</h3>
+      <p>${venueFS.venue.location.address}</p>
+      <p>${venueFS.venue.location.city}</p>
+      <p>${venueFS.venue.hereNow.summary}</p>
+      </div>`
+
+      // click infoWindow
+      marker.addListener('click', function() {
+
+        infowindow.setContent(contentString)
+        infowindow.open(map, marker);
+      
+      });
+
+      /*
+      // tab + Enter infoWindow
+      marker.addListener()
+      */
+
+      // to fit infoWindows on map
+      boundaries.extend(marker.position) 
     })
 
-    
+    map.fitBounds(boundaries)
   }
 
   
