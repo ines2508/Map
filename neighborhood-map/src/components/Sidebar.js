@@ -4,12 +4,22 @@ class SideBar extends Component {
 
     
     render() {
+
+        console.log(this.props.filteredVenues)
         return (
             <div className='sidebar'>
-                <input value={this.props.query} onChange={this.showVenues}></input>
+                <input 
+                       onChange={this.props.showVenues}></input>
                 <ul className='sidebar-list'>
-                    <li>Cafe</li>
-                    <li>Cafe 2</li>
+                    {this.props.filteredVenues.map(
+                        (place, index) => (
+                            <li key={place.venue.id}>
+                                <p><span className="venue-number">{index}</span>{place.venue.name}</p>
+                            </li>
+                        )
+                    )
+                }
+                    
                 </ul>
             </div>
         )

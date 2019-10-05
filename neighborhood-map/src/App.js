@@ -11,7 +11,8 @@ class App extends Component {
   
   state = {
     venues: [],
-    query: ''
+    query: '',
+    filteredVenues: []
   }
 
   componentDidMount() {
@@ -125,12 +126,15 @@ class App extends Component {
       boundaries.extend(marker.position) 
     })
 
+    this.setState({filteredVenues: this.state.venues})
+
     map.fitBounds(boundaries)
   }
 
   // show Venues in list
-  showVenues() {
-        
+  showVenues = (e) => {
+       console.log(e.target.value);
+       this.setState({query: e.target.value}) 
   }
   
 
@@ -139,7 +143,7 @@ class App extends Component {
       <div className="App">
         <Header></Header>
         <div className="main">
-          <Sidebar query={this.state.query} showVenues={this.showVenues}></Sidebar>
+          <Sidebar filteredVenues={this.state.filteredVenues} showVenues={this.showVenues}></Sidebar>
           <Map></Map>
         </div>
       </div>

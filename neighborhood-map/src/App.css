@@ -52,7 +52,7 @@ footer {
     font-family: Arial, Helvetica, sans-serif;
 }
 .sidebar {
-    width: 20vw;
+    width: 22vw;
     position: absolute;
     z-index: 10;
     order: 1;
@@ -63,10 +63,21 @@ footer {
 }
 .sidebar-list {
     list-style: none;
-    padding: 10px 0 0 0;
+    margin: 18px 0 0 0;
+    padding: 0px 0 0 0;
+    width: 20vw;
+    height: calc(70vh - 25px);
+    overflow-y: scroll;
 }
 .sidebar-list li {
     padding: 10px 0 0 0;
+    line-height: 150%;
+}
+.venue-number {
+    color: black;
+    line-height: 80%;
+    font-size: 150%;
+    padding: 0 10px 0 0;
 }
 #map {
     background-color: gray;
