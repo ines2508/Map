@@ -10,7 +10,8 @@ import { makeEmptyAggregatedTestResult } from '@jest/test-result';
 class App extends Component {
   
   state = {
-    venues: []
+    venues: [],
+    query: ''
   }
 
   componentDidMount() {
@@ -61,6 +62,10 @@ class App extends Component {
 
     var boundaries = new window.google.maps.LatLngBounds();
 
+    var mapCanvas = document.getElementById('map');
+    mapCanvas.setAttribute("tabIndex","0");
+    mapCanvas.addEventListener("focus", function(ev){this.style.outline = "2px solid blue"});
+    mapCanvas.addEventListener("blur", function(ev){this.style.outline = "0"});
 
     // add infoWindow
 
@@ -76,17 +81,23 @@ class App extends Component {
         map: map,
         animation: window.google.maps.Animation.DROP,
         title: venueFS.venue.name,
-        label: `${index}`
+        label: `${index}`,
+      /*  
+        icon: {
+          url: "http://maps.google.com/mapfiles/ms/icons/purple-dot.png"
+        }
+      */
       });
 
       // infoWindow content
 
-      var contentString = `<div className='infoWindow'>
+      var contentString = `<div className='infoWindow' tabIndex='0'>
       <h3>${venueFS.venue.name}</h3>
       <p>${venueFS.venue.location.address}</p>
       <p>${venueFS.venue.location.city}</p>
       <p>${venueFS.venue.hereNow.summary}</p>
       </div>`
+  
 
       // click infoWindow
       marker.addListener('click', function() {
@@ -96,10 +107,19 @@ class App extends Component {
       
       });
 
-      /*
+      
       // tab + Enter infoWindow
-      marker.addListener()
-      */
+      marker.addListener('keypress', function(e){
+        let button = e.keyCode;
+        let character = e.which;
+  
+        if (button === 13 || character === 13) {
+          infowindow.setContent(contentString)
+          infowindow.open(map, marker);
+        }
+
+      })
+      
 
       // to fit infoWindows on map
       boundaries.extend(marker.position) 
@@ -108,6 +128,10 @@ class App extends Component {
     map.fitBounds(boundaries)
   }
 
+  // show Venues in list
+  showVenues() {
+        
+  }
   
 
   render() {  
@@ -115,7 +139,7 @@ class App extends Component {
       <div className="App">
         <Header></Header>
         <div className="main">
-          <Sidebar></Sidebar>
+          <Sidebar query={this.state.query} showVenues={this.showVenues}></Sidebar>
           <Map></Map>
         </div>
       </div>

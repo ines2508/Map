@@ -3,8 +3,8 @@ import React from 'react';
 const Header = () => {
     return (
         <header>
-            <h1>Map</h1>
-            <button>X</button>
+            <button className='menu-button'>X</button>
+            <h1 className='header-title'>Barcelona's Art Places</h1>
         </header>
     )
 
