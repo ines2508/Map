@@ -2,24 +2,20 @@ import React, {Component} from 'react'
 
 class SideBar extends Component {
 
-    
     render() {
-
-        console.log(this.props.filteredVenues)
         return (
             <div className='sidebar'>
-                <input 
-                       onChange={this.props.showVenues}></input>
+                <input onChange={this.props.showVenues}></input>
                 <ul className='sidebar-list'>
-                    {this.props.filteredVenues.map(
-                        (place, index) => (
-                            <li key={place.venue.id}>
-                                <p><span className="venue-number">{index}</span>{place.venue.name}</p>
+                    {
+                        this.props.venues.map((place, index) => (
+                            <li className="list-place"
+                                id={place.venue.id}
+                                key={place.venue.id}>
+                                <p><span className="venue-number">{index}</span><span id="place-name">{place.venue.name}</span></p>
                             </li>
-                        )
-                    )
-                }
-                    
+                        ))
+                    }  
                 </ul>
             </div>
         )
