@@ -143,10 +143,11 @@ class App extends Component {
 
       // catch query into state
       this.setState({query: e.target.value}); 
+      let keyword = e.target.value;
 
       // show filtered venues on sidebar
       let filtered = this.state.venues.filter(
-          (place) => {return place.venue.name.toLowerCase().includes(this.state.query.toLowerCase())}
+          (place) => {return place.venue.name.toLowerCase().includes(keyword.toLowerCase())}
       );
 
       this.setState({filtered});
@@ -155,11 +156,11 @@ class App extends Component {
       this.state.markers.forEach(showMarker);
 
       function showMarker(marker) {
-     //   marker.title.toLowerCase().includes(e.target.value.toLowerCase()) == true
-     //   ? 
-     //   marker.setVisible(true) 
-     //   : 
-     //   marker.setVisibile(false);
+      //  marker.title.toLowerCase().includes(keyword.toLowerCase()) == true
+      //  ? 
+      //  marker.setVisible(true) 
+      //  : 
+      //  marker.setVisibile(false);
       }
   };
 
