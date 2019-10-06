@@ -5,14 +5,15 @@ import axios from 'axios'
 import Header from './components/Header';
 import Sidebar from './components/Sidebar';
 import Map from './components/Map'
-import { makeEmptyAggregatedTestResult } from '@jest/test-result';
+
 
 class App extends Component {
   
   state = {
     venues: [],
     query: '',
-    filteredVenues: []
+    markers: [],
+    filtered: []
   }
 
   componentDidMount() {
@@ -22,7 +23,7 @@ class App extends Component {
   /* followed by Yahya Elharony
      https://www.youtube.com/watch?v=W5LhLZqj76s */
   
-  // setting up FourSquare API
+  // set up FourSquare API
   getVenues = () => {
     const endPoint = 'https://api.foursquare.com/v2/venues/explore?'
     const parameters = {
@@ -47,14 +48,14 @@ class App extends Component {
     })  
     .catch(error => {console.log('There are no data to display' + error)})
   }
-
  
-  // setting up Google Map API
+  // set up Google Map API
   renderMap = () => {
     loadScript('https://maps.googleapis.com/maps/api/js?key=AIzaSyBZaSwddTJZ6RrHZ7QTcFtEgvScuOmZ_uk&callback=initMap')
     window.initMap = this.initMap
   }
 
+  // set up Map
   initMap = () => {
     var map = new window.google.maps.Map(document.getElementById('map'), {
           center: {lat: 41.390205, lng: 2.154007},
@@ -69,13 +70,14 @@ class App extends Component {
     mapCanvas.addEventListener("blur", function(ev){this.style.outline = "0"});
 
     // add infoWindow
-
     var infowindow = new window.google.maps.InfoWindow();
 
+    // array of markers
+    var markers = [];
+    
     this.state.venues.map( (venueFS, index) => {
 
       // add markers
-
       var marker = new window.google.maps.Marker({
         position: {lat: venueFS.venue.location.lat, 
                    lng: venueFS.venue.location.lng},
@@ -91,7 +93,6 @@ class App extends Component {
       });
 
       // infoWindow content
-
       var contentString = `<div className='infoWindow' tabIndex='0'>
       <h3>${venueFS.venue.name}</h3>
       <p>${venueFS.venue.location.address}</p>
@@ -99,8 +100,7 @@ class App extends Component {
       <p>${venueFS.venue.hereNow.summary}</p>
       </div>`
   
-
-      // click infoWindow
+      // show infoWindow on marker click
       marker.addListener('click', function() {
 
         infowindow.setContent(contentString)
@@ -108,43 +108,72 @@ class App extends Component {
       
       });
 
-      
-      // tab + Enter infoWindow
+      // show infowindow on tab + Enter
       marker.addListener('keypress', function(e){
         let button = e.keyCode;
         let character = e.which;
   
         if (button === 13 || character === 13) {
+
           infowindow.setContent(contentString)
           infowindow.open(map, marker);
         }
-
-      })
+      });
       
-
       // to fit infoWindows on map
-      boundaries.extend(marker.position) 
-    })
+      boundaries.extend(marker.position);
+      
+      // put all markers in state
+      markers.push(marker);
+      this.setState({markers});
 
-    this.setState({filteredVenues: this.state.venues})
+      console.log(this.state.markers);
+    
+    });
 
-    map.fitBounds(boundaries)
+    // fit map into screen
+    map.fitBounds(boundaries);
+
   }
 
-  // show Venues in list
+  // filter venues
   showVenues = (e) => {
-       console.log(e.target.value);
-       this.setState({query: e.target.value}) 
-  }
-  
+
+      console.log(this.state.markers);
+
+      // catch query into state
+      this.setState({query: e.target.value}); 
+
+      // show filtered venues on sidebar
+      let filtered = this.state.venues.filter(
+          (place) => {return place.venue.name.toLowerCase().includes(this.state.query.toLowerCase())}
+      );
+
+      this.setState({filtered});
+
+      // show filtered markers
+      this.state.markers.forEach(showMarker);
+
+      function showMarker(marker) {
+     //   marker.title.toLowerCase().includes(e.target.value.toLowerCase()) == true
+     //   ? 
+     //   marker.setVisible(true) 
+     //   : 
+     //   marker.setVisibile(false);
+      }
+  };
+
 
   render() {  
     return (
       <div className="App">
-        <Header></Header>
+        <Header/>
         <div className="main">
-          <Sidebar filteredVenues={this.state.filteredVenues} showVenues={this.showVenues}></Sidebar>
-          <Map></Map>
+          <Sidebar 
+                venues={this.state.filtered.length === 0 ? this.state.venues : this.state.filtered} 
+                markers={this.state.markers}
+                showVenues={this.showVenues}/>
+          <Map/>
         </div>
       </div>
     );
@@ -152,7 +181,6 @@ class App extends Component {
 }
 
 // script for google map
-
 function loadScript(url) {
   var index = window.document.getElementsByTagName('script')[0];
   var script = window.document.createElement('script');
@@ -162,6 +190,5 @@ function loadScript(url) {
   index.parentNode.insertBefore(script, index);
   
 }
-
 
 export default App;
