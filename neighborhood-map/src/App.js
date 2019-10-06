@@ -52,7 +52,7 @@ class App extends Component {
   // set up Google Map API
   renderMap = () => {
     loadScript('https://maps.googleapis.com/maps/api/js?key=AIzaSyBZaSwddTJZ6RrHZ7QTcFtEgvScuOmZ_uk&callback=initMap')
-    window.initMap = this.initMap
+    window.initMap = this.initMap;
   }
 
   // set up Map
@@ -75,7 +75,8 @@ class App extends Component {
     // array of markers
     var markers = [];
     
-    this.state.venues.map( (venueFS, index) => {
+    (this.state.filtered.length > 0 ? this.state.filtered : this.state.venues)
+    .map( (venueFS, index) => {
 
       // add markers
       var marker = new window.google.maps.Marker({
@@ -156,13 +157,15 @@ class App extends Component {
       this.state.markers.forEach(showMarker);
 
       function showMarker(marker) {
-      //  marker.title.toLowerCase().includes(keyword.toLowerCase()) == true
-      //  ? 
-      //  marker.setVisible(true) 
-      //  : 
-      //  marker.setVisibile(false);
-      }
-  };
+        (marker.title.toLowerCase().includes(keyword.toLowerCase()) == true
+        ? 
+        marker.visible = true
+        : 
+        marker.visible = false)
+      
+      }  this.renderMap();
+
+  }
 
 
   render() {  
