@@ -72,14 +72,26 @@ footer {
     overflow-y: scroll;
 }
 .sidebar-list li {
-    padding: 10px 0 0 0;
+    padding: 18px 0 0 0;
     line-height: 150%;
 }
+.list-place {
+    display: block;
+}
 .venue-number {
-    color: black;
+    color: rgb(66, 10, 63);
     line-height: 80%;
     font-size: 150%;
-    padding: 0 10px 0 0;
+    padding: 0 13px 0 0;
+}
+.venue-title {
+    line-height: 140%;
+}
+.venue-address {
+    padding: 4px 0 0 0;
+    font-size: 90%;
+    color: rgb(231, 176, 248);
+    line-height: 120%;
 }
 #map {
     background-color: gray;

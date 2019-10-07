@@ -11,7 +11,6 @@ class App extends Component {
   
   state = {
     venues: [],
-    query: '',
     markers: [],
     filtered: []
   }
@@ -86,6 +85,7 @@ class App extends Component {
         animation: window.google.maps.Animation.DROP,
         title: venueFS.venue.name,
         label: `${index}`,
+        number: venueFS.venue.id
       /*  
         icon: {
           url: "http://maps.google.com/mapfiles/ms/icons/purple-dot.png"
@@ -128,10 +128,10 @@ class App extends Component {
       markers.push(marker);
       this.setState({markers});
 
-      console.log(this.state.markers);
+    //  console.log(this.state.markers);
     
     });
-
+  
     // fit map into screen
     map.fitBounds(boundaries);
 
@@ -140,10 +140,8 @@ class App extends Component {
   // filter venues
   showVenues = (e) => {
 
-      console.log(this.state.markers);
-
-      // catch query into state
-      this.setState({query: e.target.value}); 
+      let markers = [];
+     
       let keyword = e.target.value;
 
       // show filtered venues on sidebar
@@ -151,22 +149,47 @@ class App extends Component {
           (place) => {return place.venue.name.toLowerCase().includes(keyword.toLowerCase())}
       );
 
+      // catch filtered venues
       this.setState({filtered});
 
       // show filtered markers
       this.state.markers.forEach(showMarker);
 
       function showMarker(marker) {
-        (marker.title.toLowerCase().includes(keyword.toLowerCase()) == true
+        (marker.title.toLowerCase().includes(keyword.toLowerCase()) === true
         ? 
         marker.visible = true
         : 
         marker.visible = false)
-      
-      }  this.renderMap();
-
+        markers.push(marker)
+      }
+     
+      this.setState({markers});
+      console.log(this.state.markers);
+      this.renderMap();
   }
 
+  // show InfoWindow on sidebar by click
+  showInfowindow = (e) => {
+   
+    let idValue = e.target.id
+  
+    let chooseMarker = this.state.markers.filter((marker) => 
+      {return marker.number.includes(idValue)}
+    ) 
+  
+    var infowindow = new window.google.maps.InfoWindow({
+      content: chooseMarker[0].title
+    });
+
+    chooseMarker.forEach(position => {
+
+      infowindow.open(window.map, position);
+      setTimeout(function () { infowindow.close(); }, 2000);
+    
+    })
+  
+  }
 
   render() {  
     return (
@@ -176,6 +199,7 @@ class App extends Component {
           <Sidebar 
                 venues={this.state.filtered.length === 0 ? this.state.venues : this.state.filtered} 
                 markers={this.state.markers}
+                showInfowindow={this.showInfowindow}
                 showVenues={this.showVenues}/>
           <Map/>
         </div>
