@@ -12,7 +12,9 @@ class App extends Component {
   state = {
     venues: [],
     markers: [],
-    filtered: []
+    filtered: [],
+    loading: true,
+    showList: true
   }
 
   componentDidMount() {
@@ -37,7 +39,6 @@ class App extends Component {
     // Promise with axios app
     axios.get(endPoint + new URLSearchParams(parameters))
     .then(response => {
-      console.log(response.data.response.groups[0].items);
 
       this.setState({
         venues: response.data.response.groups[0].items
@@ -52,6 +53,12 @@ class App extends Component {
   renderMap = () => {
     loadScript('https://maps.googleapis.com/maps/api/js?key=AIzaSyBZaSwddTJZ6RrHZ7QTcFtEgvScuOmZ_uk&callback=initMap')
     window.initMap = this.initMap;
+
+    // https://developers.google.com/maps/documentation/javascript/events
+    window.gm_authFailure = function() {
+      alert('Error with loading the Google Map!')
+    } 
+    this.setState({loading: false})
   }
 
   // set up Map
@@ -111,6 +118,7 @@ class App extends Component {
 
       // show infowindow on tab + Enter
       marker.addListener('keypress', function(e){
+
         let button = e.keyCode;
         let character = e.which;
   
@@ -142,7 +150,7 @@ class App extends Component {
 
       let markers = [];
      
-      let keyword = e.target.value;
+      let keyword = e.target.value.trimStart();
 
       // show filtered venues on sidebar
       let filtered = this.state.venues.filter(
@@ -169,7 +177,7 @@ class App extends Component {
       this.renderMap();
   }
 
-  // show InfoWindow on sidebar by click
+  // show InfoWindow on sidebar by clicking
   showInfowindow = (e) => {
    
     let idValue = e.target.id
@@ -191,18 +199,41 @@ class App extends Component {
   
   }
 
+  // show InfoWindow on sidebar by pressing the Enter
+  showInfowindowOnPress = (e) => {
+    if (e.key === "Enter") {
+      this.showInfowindow(e)
+    }
+  }
+
+  // toggle button Menu
+  toggleButton = () => {
+    this.setState(preState => ({
+    showList: !preState.showList
+    }))
+  }
+
   render() {  
     return (
       <div className="App">
-        <Header/>
-        <div className="main">
+        <Header toggleButton={this.toggleButton}
+                showList={this.state.showList}
+        />
+        <main className="main" role="main">
+          {this.state.showList ?
           <Sidebar 
                 venues={this.state.filtered.length === 0 ? this.state.venues : this.state.filtered} 
                 markers={this.state.markers}
                 showInfowindow={this.showInfowindow}
-                showVenues={this.showVenues}/>
-          <Map/>
-        </div>
+                showInfowindowOnPress={this.showInfowindowOnPress}
+                showVenues={this.showVenues}
+                showList={this.state.showList}
+          /> : null }
+          {this.state.loading === false ? <Map /> :
+          <p className="map-error"><span className="map-error-wait">Please wait.</span><br></br> We are connecting to Google Map. </p>
+          }
+          
+        </main>
       </div>
     );
   }

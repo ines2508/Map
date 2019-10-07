@@ -2,10 +2,10 @@ import React from 'react'
 
 const Map = () => {
     return (
-        <div id = 'map' 
-        role = 'application'
-        tabIndex = '0'
-        ></div>
+        <section id = 'map'
+                 aria-label="map" 
+                 role = 'application'
+        ></section>
     )
 }
 
