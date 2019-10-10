@@ -134,6 +134,7 @@ class App extends Component {
       
       // put all markers in state
       markers.push(marker);
+     // this.state.markers.push(marker)
       this.setState({markers});
 
     //  console.log(this.state.markers);
@@ -169,10 +170,12 @@ class App extends Component {
         marker.visible = true
         : 
         marker.visible = false)
-        markers.push(marker)
+      //  markers.push(marker);
+      //  this.setState({markers});
       }
-     
-      this.setState({markers});
+     // this.state.markers.push(marker)
+    // markers.push(marker);
+    //  this.setState({markers});
       console.log(this.state.markers);
       this.renderMap();
   }

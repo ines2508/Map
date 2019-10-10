@@ -47,6 +47,7 @@ footer {
 .header-title {
     padding: 10px 0 5px 20px;
     color: rgb(109, 4, 170);
+    font-size: 1.2em;
 }
 .menu-button {
     padding: 10px;
@@ -56,8 +57,7 @@ footer {
     border: none;
 }
 .sidebar {
-    width: 22vw;
-    min-width: 250px;
+    width: 100vw;
     position: absolute;
     z-index: 10;
     order: 1;
@@ -72,16 +72,16 @@ input {
 }
 .sidebar-list {
     list-style: none;
-    margin: 18px 0 0 0;
-    padding: 0px 0 0 0;
-    width: 20vw;
-    min-width: 220px;
-    height: calc(70vh - 33px);
+    margin: 18px 20px 0 0;
+    padding: 0px 10px 0 0;
+    width: 90vw;
+    height: calc(73vh - 33px);
     overflow-y: scroll;
 }
 .sidebar-list li {
     padding: 5px 0 15px 0;
     line-height: 150%;
+    margin: 0 20px 0 0;
 }
 .list-place {
     display: block;
@@ -119,3 +119,84 @@ input {
     align-content: center;
     color: rgb(109, 4, 170);
 }
+
+@media all and (min-width: 450px) and (max-width:750px) and (orientation: portrait) {
+    .sidebar {
+        width: 50vw;
+       
+    }
+    .sidebar-list {
+        width: 45vw;  
+        height: calc(42vh - 33px);
+    }
+    .header-title { 
+        font-size: 1.4em;
+    }
+ }
+
+ @media all and (min-width: 450px) and (max-width:750px) and (orientation: landscape) {
+    .sidebar {
+        width: 50vw;
+       
+    }
+    .sidebar-list {
+        width: 45vw;  
+        height: calc(72vh - 33px);
+    }
+    .header-title { 
+        font-size: 1.4em;
+    }
+ }
+
+ @media all and (min-width: 751px) and (max-width:1023px) and (orientation: portrait) {
+    .sidebar {
+        width: 40vw;
+       
+    }
+    .sidebar-list {
+        width: 36vw;  
+        height: calc(42vh - 33px);
+    }
+    .header-title { 
+        font-size: 1.6em;
+    }
+ }
+
+ @media all and (min-width: 751px) and (max-width:980px) and (orientation: landscape) {
+    .sidebar {
+        width: 40vw;
+       
+    }
+    .sidebar-list {
+        width: 36vw;  
+        height: calc(70vh - 33px);
+    }
+    .header-title { 
+        font-size: 1.6em;
+    }
+ }
+
+ @media all and (min-width: 1024px) and (orientation: portrait) {
+    .sidebar {
+        width: 30vw;
+    }
+    .sidebar-list {
+        width: 27vw;  
+        height: calc(35vh - 33px);
+    }
+    .header-title { 
+        font-size: 1.8em;
+    }
+ }
+ @media all and (min-width: 981px) and (orientation: landscape) {
+    .sidebar {
+        width: 30vw;
+    }
+    .sidebar-list {
+        width: 27vw;  
+        height: calc(71vh);
+    }
+    .header-title { 
+        font-size: 1.8em;
+    }
+ }
