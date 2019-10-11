@@ -67,6 +67,9 @@ footer {
     color: white;
     padding: 20px 20px 25px 20px;
 }
+.error-foursquare {
+    color: white;
+}
 input {
     font-size: 120%;
     color: rgb(109, 4, 170);
@@ -114,7 +117,7 @@ input {
     order: 10
 }
 .map-error {
-    height: 55vh;
+    height: 80vh;
     justify-content: center;
     align-content: center;
     font-size: 2em;

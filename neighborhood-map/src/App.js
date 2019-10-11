@@ -15,7 +15,7 @@ class App extends Component {
     markers: [],
     filtered: [],
     loading: true,
-    showList: true
+    showList: false
   }
 
   componentDidMount() {
@@ -60,6 +60,7 @@ class App extends Component {
       alert('Error with loading the Google Map!')
     } 
     this.setState({loading: false})
+    this.setState({showList: true})
   }
 
   // set up Map
@@ -150,7 +151,7 @@ class App extends Component {
   // filter venues
   showVenues = (e) => {
 
-      let markers = [];
+   //   let markers = [];
      
       let keyword = e.target.value.trimStart();
 
@@ -168,17 +169,20 @@ class App extends Component {
       function showMarker(marker) {
         (marker.title.toLowerCase().includes(keyword.toLowerCase()) === true
         ? 
-        marker.visible = true
+        marker.setVisible(true)
+     //   marker.visible = true
         : 
-        marker.visible = false)
+        marker.setVisible(false)
+      //  marker.visible = false)
+
       //  markers.push(marker);
       //  this.setState({markers});
-      }
+        )}
      // this.state.markers.push(marker)
     // markers.push(marker);
     //  this.setState({markers});
       console.log(this.state.markers);
-      this.renderMap();
+     // this.renderMap();
   }
 
   // show InfoWindow on sidebar by clicking
@@ -195,24 +199,24 @@ class App extends Component {
     });
 
     
-
     chooseMarker.forEach(marker => {
 
       function toggleBounce () {
+     //   if( marker.animating ) { return; }
+     //   marker.setAnimation(null);
         if (marker.getAnimation() != null) {
             marker.setAnimation(null);
         } else {
             marker.setAnimation(window.google.maps.Animation.BOUNCE);
+            setTimeout(function() {marker.setAnimation(null)}, 700)
         }
       }
 
       infowindow.open(window.map, marker);
-      setTimeout(function () { infowindow.close(); }, 2000);
-
+      setTimeout(function () { infowindow.close(); }, 500);
       toggleBounce();
-      setTimeout(toggleBounce, 1500);
-
     })
+
   
   }
 
@@ -247,7 +251,7 @@ class App extends Component {
                 showList={this.state.showList}
           /> : null }
           {this.state.loading === false ? <Map markers={this.state.markers} /> :
-          <p className="map-error"><span className="map-error-wait">Please wait.</span><br></br> We are connecting to Google Map. </p>
+          <p className="map-error"><span className="map-error-wait">Please wait.</span><br></br> We are connecting to Google Map and Foursquare API. </p>
           }
           
         </main>
