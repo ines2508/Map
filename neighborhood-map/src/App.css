@@ -84,6 +84,10 @@ input {
     line-height: 150%;
     margin: 0 20px 0 0;
 }
+.sidebar-list li:hover {
+    padding: 5px 0 15px 10px;
+    background-color:  rgb(101, 6, 156);
+}
 .list-place {
     display: block;
     cursor: pointer;
@@ -127,6 +131,10 @@ footer {
     color: white;
     font-size: 80%;
     padding: 15px 20px 0 0; 
+}
+.footer-api {
+    color:rgb(216, 127, 243);
+    padding: 0 20px 0 0;
 }
 .footer-signature {
     background-color: rgb(207, 205, 207);

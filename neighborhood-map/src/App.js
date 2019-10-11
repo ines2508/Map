@@ -194,11 +194,24 @@ class App extends Component {
       content: chooseMarker[0].title
     });
 
-    chooseMarker.forEach(position => {
-
-      infowindow.open(window.map, position);
-      setTimeout(function () { infowindow.close(); }, 2000);
     
+
+    chooseMarker.forEach(marker => {
+
+      function toggleBounce () {
+        if (marker.getAnimation() != null) {
+            marker.setAnimation(null);
+        } else {
+            marker.setAnimation(window.google.maps.Animation.BOUNCE);
+        }
+      }
+
+      infowindow.open(window.map, marker);
+      setTimeout(function () { infowindow.close(); }, 2000);
+
+      toggleBounce();
+      setTimeout(toggleBounce, 1500);
+
     })
   
   }

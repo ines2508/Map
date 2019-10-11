@@ -14,7 +14,7 @@ const Header = (props) => {
             </button>
             <h1 className='header-title'
                 tabIndex='0'
-            ><FontAwesomeIcon icon={faFingerprint} /> Barcelona's Art Places            
+            ><span aria-label='logo'><FontAwesomeIcon icon={faFingerprint} /></span> Barcelona's Art Places            
             </h1>
         </header>
     )
