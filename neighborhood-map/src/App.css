@@ -55,6 +55,7 @@ footer {
     width: 50px;
     color: rgb(66, 10, 63);
     border: none;
+    background-color: rgb(207, 205, 207);
 }
 .sidebar {
     width: 100vw;
@@ -103,7 +104,7 @@ input {
     line-height: 120%;
 }
 #map {
-    background-color: gray;
+    background-color: rgb(207, 205, 207);
     height: 80vh;
     width: 100vw;
     order: 10
@@ -118,6 +119,17 @@ input {
     justify-content: center;
     align-content: center;
     color: rgb(109, 4, 170);
+}
+footer {
+    width: 100vw;
+    align-content: flex-end;
+    justify-content: flex-end;
+    color: white;
+    font-size: 80%;
+    padding: 15px 20px 0 0; 
+}
+.footer-signature {
+    background-color: rgb(207, 205, 207);
 }
 
 @media all and (min-width: 450px) and (max-width:750px) and (orientation: portrait) {

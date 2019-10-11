@@ -4,7 +4,8 @@ import axios from 'axios'
 
 import Header from './components/Header';
 import Sidebar from './components/Sidebar';
-import Map from './components/Map'
+import Map from './components/Map';
+import Footer from './components/Footer'
 
 
 class App extends Component {
@@ -232,11 +233,12 @@ class App extends Component {
                 showVenues={this.showVenues}
                 showList={this.state.showList}
           /> : null }
-          {this.state.loading === false ? <Map /> :
+          {this.state.loading === false ? <Map markers={this.state.markers} /> :
           <p className="map-error"><span className="map-error-wait">Please wait.</span><br></br> We are connecting to Google Map. </p>
           }
           
         </main>
+        <Footer/>
       </div>
     );
   }
