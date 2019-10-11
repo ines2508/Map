@@ -27,6 +27,7 @@ body,
 header,
 main,
 .sidebar,
+.list-place,
 #map,
 .map-error,
 .map-error-wait,
@@ -86,13 +87,14 @@ input {
     padding: 5px 0 15px 0;
     line-height: 150%;
     margin: 0 20px 0 0;
+    width: 100%;
 }
 .sidebar-list li:hover {
-    padding: 5px 0 15px 10px;
+    padding: 7px 0 15px 10px;
     background-color:  rgb(101, 6, 156);
 }
 .list-place {
-    display: block;
+    width: 100%;
     cursor: pointer;
 }
 .venue-number {
@@ -103,6 +105,8 @@ input {
 }
 .venue-title {
     line-height: 140%;
+    display: block;
+    width: 100%;
 }
 .venue-address {
     padding: 4px 0 0 0;

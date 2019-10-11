@@ -8,6 +8,7 @@ class SideBar extends Component {
             <div className='sidebar'role="menu" aria-label='sidemenu'>
                 <input 
                     placeholder="Search the place"
+                    value={this.props.query}
                     aria-label='searchbox'
                     type="text"
                     tabIndex='0'
@@ -17,7 +18,8 @@ class SideBar extends Component {
                     aria-label="List of art's places"
                     tabIndex={this.props.showList ? '0' : '-1' }
                 >
-                    {this.props.venues.map((place, index) => (
+                    {this.props.venues.map((place) => (
+
                         <li className="list-place"
                             id={place.venue.id}
                             key={place.venue.id}
@@ -26,9 +28,9 @@ class SideBar extends Component {
                             role="button"
                             tabIndex={this.props.showList ? '0' : '-1' }
                         >
-                            <p className="venue-title">
+                            <p className="venue-title" id={place.venue.id}>
                                 <span className="venue-number" id={place.venue.id}>
-                                    {index}
+                                    {Math.abs(Number(place.referralId.slice(-2)))}
                                 </span>
                                 <span className="venue-name" id={place.venue.id}>
                                     {place.venue.name}

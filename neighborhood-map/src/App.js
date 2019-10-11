@@ -15,7 +15,8 @@ class App extends Component {
     markers: [],
     filtered: [],
     loading: true,
-    showList: false
+    showList: false,
+    query: ' '
   }
 
   componentDidMount() {
@@ -44,7 +45,8 @@ class App extends Component {
       this.setState({
         venues: response.data.response.groups[0].items
       }, 
-      // wait till venues array is full loaded
+      console.log(response.data.response.groups[0].items),
+      // wait till venues array is fully loaded
       this.renderMap())
     })  
     .catch(error => {console.log('There are no data to display' + error)})
@@ -58,7 +60,9 @@ class App extends Component {
     // https://developers.google.com/maps/documentation/javascript/events
     window.gm_authFailure = function() {
       alert('Error with loading the Google Map!')
-    } 
+    }
+    
+    // hide error message and display the results
     this.setState({loading: false})
     this.setState({showList: true})
   }
@@ -87,11 +91,11 @@ class App extends Component {
     .map( (venueFS, index) => {
 
       // add markers
-      var marker = new window.google.maps.Marker({
+        var marker = new window.google.maps.Marker({
         position: {lat: venueFS.venue.location.lat, 
                    lng: venueFS.venue.location.lng},
         map: map,
-        animation: window.google.maps.Animation.DROP,
+     //   animation: window.google.maps.Animation.DROP,
         title: venueFS.venue.name,
         label: `${index}`,
         number: venueFS.venue.id
@@ -129,7 +133,7 @@ class App extends Component {
           infowindow.setContent(contentString)
           infowindow.open(map, marker);
         }
-      });
+      });  
       
       // to fit infoWindows on map
       boundaries.extend(marker.position);
@@ -137,7 +141,7 @@ class App extends Component {
       // put all markers in state
       markers.push(marker);
      // this.state.markers.push(marker)
-      this.setState({markers});
+      return this.setState({markers});
 
     //  console.log(this.state.markers);
     
@@ -150,10 +154,9 @@ class App extends Component {
 
   // filter venues
   showVenues = (e) => {
-
-   //   let markers = [];
      
       let keyword = e.target.value.trimStart();
+      this.setState({query: keyword});
 
       // show filtered venues on sidebar
       let filtered = this.state.venues.filter(
@@ -167,60 +170,64 @@ class App extends Component {
       this.state.markers.forEach(showMarker);
 
       function showMarker(marker) {
-        (marker.title.toLowerCase().includes(keyword.toLowerCase()) === true
-        ? 
-        marker.setVisible(true)
-     //   marker.visible = true
-        : 
-        marker.setVisible(false)
-      //  marker.visible = false)
-
-      //  markers.push(marker);
-      //  this.setState({markers});
-        )}
+      
+                  ( marker.title.toLowerCase().includes(keyword.toLowerCase()) === true
+                  ? 
+                    marker.setVisible(true)
+                  : 
+                    marker.setVisible(false)
+                  ) 
+      }
      // this.state.markers.push(marker)
     // markers.push(marker);
     //  this.setState({markers});
-      console.log(this.state.markers);
+  //    console.log(this.state.markers);
      // this.renderMap();
   }
 
-  // show InfoWindow on sidebar by clicking
+  // show InfoWindow and marker after clicking on Sidebar
   showInfowindow = (e) => {
    
+    // get id venue and marker
     let idValue = e.target.id
   
     let chooseMarker = this.state.markers.filter((marker) => 
-      {return marker.number.includes(idValue)}
+      { return marker.number.includes(idValue)}
     ) 
   
     var infowindow = new window.google.maps.InfoWindow({
       content: chooseMarker[0].title
     });
 
-    
     chooseMarker.forEach(marker => {
 
+      // added animation to marker
       function toggleBounce () {
-     //   if( marker.animating ) { return; }
-     //   marker.setAnimation(null);
+
+          marker.setAnimation(null);
+
         if (marker.getAnimation() != null) {
+
             marker.setAnimation(null);
+
         } else {
+
             marker.setAnimation(window.google.maps.Animation.BOUNCE);
             setTimeout(function() {marker.setAnimation(null)}, 700)
         }
+
+        // show infoWindow
+        infowindow.open(window.map, marker);
+        setTimeout(function () { infowindow.close(); }, 700);
+
       }
 
-      infowindow.open(window.map, marker);
-      setTimeout(function () { infowindow.close(); }, 500);
       toggleBounce();
-    })
-
-  
+     
+    })        
   }
 
-  // show InfoWindow on sidebar by pressing the Enter
+  // show InfoWindow and marker after pressing the Enter on Sidebar
   showInfowindowOnPress = (e) => {
     if (e.key === "Enter") {
       this.showInfowindow(e)
@@ -243,14 +250,15 @@ class App extends Component {
         <main className="main" role="main">
           {this.state.showList ?
           <Sidebar 
-                venues={this.state.filtered.length === 0 ? this.state.venues : this.state.filtered} 
+                venues={(this.state.filtered.length === 0 && this.state.query === ' ') ? this.state.venues : this.state.filtered} 
                 markers={this.state.markers}
                 showInfowindow={this.showInfowindow}
                 showInfowindowOnPress={this.showInfowindowOnPress}
                 showVenues={this.showVenues}
                 showList={this.state.showList}
+                query={this.state.query}
           /> : null }
-          {this.state.loading === false ? <Map markers={this.state.markers} /> :
+          {this.state.loading === false ? <Map /> :
           <p className="map-error"><span className="map-error-wait">Please wait.</span><br></br> We are connecting to Google Map and Foursquare API. </p>
           }
           
