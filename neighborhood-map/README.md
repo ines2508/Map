@@ -1,68 +1,46 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Barcelona's Art Places is a website built with FourSquare and Google Map API. All the code is written in React with the use of ES6.
 
-## Available Scripts
+# Start
 
-In the project directory, you can run:
+To start open the terminal and write "yarn start".
 
-### `npm start`
+# Loading the data and error handling
 
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+The site uses Promise and componentDidMount() to make sure no data will be displayed empty. The error handling is presented in console.log and while loading the data from API.
 
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
+First the site presents results from FourSquare API based on the query "art" and place "Barcelona". Then uses geographical coordinates from FourSquare API to match the place with Google Map API. Also to help to search and filter the data, the marker gets the same "id" as venue from FourSquare API. The "id" in the marker is kept as attribute "number".
 
-### `npm test`
+# Displaying the map and markers
 
-Launches the test runner in the interactive watch mode.<br>
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+The Google Map is set to show all the data inside the map's boundaries to make sure the user sees them all. 
 
-### `npm run build`
+The markers are displayed based on the initial data from "this.state.venues" and when the user starts to search inside of them in the Sidebar, the list of markers will change into filtered results from "this.state.filtered".
 
-Builds the app for production to the `build` folder.<br>
-It correctly bundles React in production mode and optimizes the build for the best performance.
+All the markers have their unique label with the number presented on the icon (this number is different then the "id").
 
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
+When searching the result, the labels on the markers and the numbers on the Sidebar are kept the same to find them faster. 
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+# Showing InfoWindow
 
-### `npm run eject`
+After clicking on the marker the Infowindow is shown with the data from FourSquare API.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+Only one Infowindow is shown at the time. To close the Infowindow the user needs to click the new one or the cross on the Infowindow.
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+# Showing and filtering the markers
 
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+On the sidebar the input collects the data and trims them from the left side. Then the data are stored in the state "query" and used to filter the venues and the markers. 
+If the query matches the name of the marker, the marker's attribute "visible" is changed to "true", otherwise is set to "false".
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+# Displaying the sidebar
 
-## Learn More
+The sidebar is hidden till the data from the API are loaded so the user doesn't see the empty list, only the message on the map's place: "Please wait. We are connecting to FourSquare and Google Map API". 
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Showing the sidebar is toggled by the state "showList" which is activated by the function "renderMap" and the button with the className "menu-button" in the Header. The icon on the button is also toggled by this state. 
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Appropriate displaying the input and the list for the users whom use the Screen Readers are made with the tabindex -1 to hide the list when it is not present on the screen.
 
-### Code Splitting
+# Clicking the venue on the sidebar
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
+When the user clicks the venue on the sidebar, the matched marker bounces and the infowindow is shown. 
 
-### Analyzing the Bundle Size
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify

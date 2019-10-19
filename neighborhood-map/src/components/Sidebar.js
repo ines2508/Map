@@ -7,12 +7,14 @@ class SideBar extends Component {
             
             <div className='sidebar'role="menu" aria-label='sidemenu'>
                 <input 
-                    placeholder="Search the place"
                     value={this.props.query}
                     aria-label='searchbox'
                     type="text"
-                    tabIndex='0'
-                    onChange={this.props.showVenues}>
+                    tabIndex={this.props.showList ? '0' : '-1' }
+                    onChange={this.props.showVenues}
+                    placeholder="Search the place"
+                >
+                    
                 </input>
                 <ul className='sidebar-list'
                     aria-label="List of art's places"
@@ -29,14 +31,20 @@ class SideBar extends Component {
                             tabIndex={this.props.showList ? '0' : '-1' }
                         >
                             <p className="venue-title" id={place.venue.id}>
-                                <span className="venue-number" id={place.venue.id}>
+                                <span className="venue-number" 
+                                      id={place.venue.id}
+                                >
                                     {Math.abs(Number(place.referralId.slice(-2)))}
                                 </span>
-                                <span className="venue-name" id={place.venue.id}>
+                                <span className="venue-name" 
+                                      id={place.venue.id}
+                                >
                                     {place.venue.name}
                                 </span>
                             </p>
-                            <p className="venue-address" id={place.venue.id}>
+                            <p className="venue-address" 
+                               id={place.venue.id}
+                            >
                                 {place.venue.location.address}
                                 {place.venue.location.city}
                             </p>

@@ -99,11 +99,7 @@ class App extends Component {
         title: venueFS.venue.name,
         label: `${index}`,
         number: venueFS.venue.id
-      /*  
-        icon: {
-          url: "http://maps.google.com/mapfiles/ms/icons/purple-dot.png"
-        }
-      */
+      
       });
 
       // infoWindow content
@@ -140,10 +136,7 @@ class App extends Component {
       
       // put all markers in state
       markers.push(marker);
-     // this.state.markers.push(marker)
       return this.setState({markers});
-
-    //  console.log(this.state.markers);
     
     });
   
@@ -178,11 +171,6 @@ class App extends Component {
                     marker.setVisible(false)
                   ) 
       }
-     // this.state.markers.push(marker)
-    // markers.push(marker);
-    //  this.setState({markers});
-  //    console.log(this.state.markers);
-     // this.renderMap();
   }
 
   // show InfoWindow and marker after clicking on Sidebar
